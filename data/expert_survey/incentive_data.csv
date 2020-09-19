@@ -1,0 +1,29 @@
+country,country_code,WB_incentive_financial,WB_incentive_financial_comment,WB_incentive_time,WB_incentive_time_comment,plasma_incentive_financial,plasma_incentive_financial_comment,plasma_incentive_time,plasma_incentive_time_comment
+Malta,MT,0,NA,0,NA,0,NA,0,NA
+Finland,FI,0,NA,0,NA,0,NA,0,NA
+Portugal,PT,1,exemption from paying fees for access to the national healthcare,1,duration of donation: ~ 1 hour,1,exemption from paying fees for access to the national healthcare,1,duration of donation: ~ 2 hours
+Austria,AT,0,NA,0,NA,1,cash (25 Euro),0,NA
+Luxembourg,LU,0,NA,0.5,"depends on employers; quite common, especially for public sector; duration of donation: ~ 1 hour",0,NA,0.5,depends on employers; duration of donation: ~ 2 hours
+Lithuania,LT,0,NA,0,NA,NA,NA,NA,NA
+Spain,ES,0,NA,0,NA,0,NA,0,NA
+Ireland,IE,0,NA,0,NA,NA,NA,NA,NA
+Sweden,SE,0,NA,0.5,depends on employers,0,NA,0.5,depends on employers
+Netherlands,NL,0,NA,0,NA,0,NA,0,NA
+Estonia,EE,0,NA,0,NA,0,NA,0,NA
+France,FR,0,NA,0,NA,0,NA,0,NA
+Czech Republic,CZ,1,tax relief 17–18 EUR,0.5,depends on employers; duration of donation + travel,1,cash (commercial; 20-25 EUR); tax relief (hospital-based donation; 17–18 EUR),0.5,depends on employers; duration of donation + travel
+Germany,DE,0.5,"cash, 25 Euro (only by hospital-based blood operator, not by Red Cross)",0,NA,1,"cash, 15-25 Euro",0,NA
+Bulgaria,BG,0,NA,1,not depending on employer; 2 days,0,NA,1,not depending on employer; 2 days
+Cyprus,CY,0,NA,0.5,depends on employers; time of donation,NA,NA,NA,NA
+Greece,GR,0,NA,0.5,"depends on employers, especially civil servants; 2 days",NA,NA,NA,NA
+Croatia,HR,0,NA,0.5,depends on employers; time of donation,NA,NA,NA,NA
+Romania,RO,1,food vouchers; 13 Euro value,1,not dependent on employer; 1 day,1,food vouchers; 13 Euro value,1,not dependent on employer; 1 day
+Latvia,LV,0,"financial compensation 5,47 Euros",1,not dependent on employer; 1 day,1,"financial compensation 18,27 Euros",1,not dependent on employer; 1 day
+Belgium,BE,0,NA,0.5,depends on employers; up to 1 day off,0,NA,0.5,depends on employers; up to 1 day off
+Denmark,DK,0,NA,0,NA,0,NA,0,NA
+Slovenia,SI,0,NA,1,1 day off,0,NA,1,1 day off
+United Kingdom,GB,0,NA,0,NA,NA,NA,NA,NA
+Hungary,HU,0,NA,0,NA,1,cash,1,cash
+Poland,PL,1,"tax relief; 29,40 Euro per Litre",1,not dependent on employer; 1 day,1,"tax relief; 29,40 Euro per Litre",1,not dependent on employer; 1 day
+Italy,IT,0,NA,1,not dependent on employer; 1 day,0,NA,1,not dependent on employer; 1 day
+Slovakia,SK,0,NA,0,NA,0,NA,0,NA
