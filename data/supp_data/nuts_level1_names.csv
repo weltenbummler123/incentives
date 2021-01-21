@@ -1,0 +1,99 @@
+nuts_level1_code,nuts_level1_name,nuts_level1_code_alt,nuts_level1_name_alt
+AT1,East Austria,AT1,East Austria
+AT2,South Austria,AT2,South Austria
+AT3,West Austria,AT3,West Austria
+BE1,Brussels Capital Region,BE1,Brussels Capital Region
+BE2,Flemish Region,BE2,Flemish Region
+BE3,Walloon Region,BE3,Walloon Region
+BG3,Northern and Eastern Bulgaria,BG3,Northern and Eastern Bulgaria
+BG4,South-Western and South-Central Bulgaria,BG4,South-Western and South-Central Bulgaria
+CY,Cyprus,CY,Cyprus
+CZ0,Czech Republic,CZ0,Czech Republic
+DE1,Baden-Württemberg,DE01,Southern Germany
+DE2,Bavaria,DE01,Southern Germany
+DE3,Berlin,DE02,Eastern Germany
+DE4,Brandenburg,DE02,Eastern Germany
+DE5,Free Hanseatic City of Bremen,DE03,Northern Germany
+DE6,Hamburg,DE03,Northern Germany
+DE7,Hessen,DE04,Central Germany
+DE8,Mecklenburg-Vorpommern,DE03,Northern Germany
+DE9,Lower Saxony,DE03,Northern Germany
+DEA,North Rhine-Westphalia,DE05,Western Germany
+DEB,Rhineland-Palatinate,DE05,Western Germany
+DEC,Saarland,DE05,Western Germany
+DED,Saxony,DE02,Eastern Germany
+DEE,Saxony-Anhalt,DE02,Eastern Germany
+DEF,Schleswig-Holstein,DE03,Northern Germany
+DEG,Thuringia,DE04,Central Germany
+DK0,Denmark,DK0,Denmark
+EE0,Estonia,EE0,Estonia
+EL1,Voreia Ellada,EL1,Voreia Ellada
+EL2,Kentriki Ellada,EL2,Kentriki Ellada
+EL3,Attica,EL3,Attica
+EL4,"Nisia Aigaiou, Kriti",EL4,"Nisia Aigaiou, Kriti"
+ES1,North West,ES1,North West
+ES2,North East,ES2,North East
+ES3,Community of Madrid,ES3,Community of Madrid
+ES4,Centre,ES4,Centre
+ES5,East,ES5,East
+ES6,South,ES6,South
+ES7,Canary Islands,ES7,Canary Islands
+FI1,Mainland Finland,FI1,Mainland Finland
+FI2,Åland,FI2,Åland
+FR1,Région parisienne,FR1,Région parisienne
+FR2,Bassin parisien,FR2,Bassin parisien
+FR3,Nord,FR3,Nord
+FR4,Est,FR4,Est
+FR5,Ouest,FR5,Ouest
+FR6,Sud-Ouest,FR6,Sud-Ouest
+FR7,Centre-Est,FR7,Centre-Est
+FR8,Méditerranée,FR8,Méditerranée
+FRA,Départements d'Outre-Mer,FRA,Départements d'Outre-Mer
+HR0,Croatia,HR0,Croatia
+HU1,Central Hungary,HU1,Central Hungary
+HU2,Transdanubia,HU2,Transdanubia
+HU3,Great Plain and North,HU3,Great Plain and North
+IE0,Ireland,IE0,Ireland
+ITC,North West,ITC,North West
+ITH,North East,ITH,North East
+ITI,Centre,ITI,Centre
+ITF,South,ITF,South
+ITG,Islands,ITG,Islands
+LT0,Lithuania,LT0,Lithuania
+LU,Luxembourg,LU,Luxembourg
+LV0,Latvia,LV0,Latvia
+MT,Malta,MT,Malta
+NL1,North Netherlands,NL1,North Netherlands
+NL2,East Netherlands,NL2,East Netherlands
+NL3,West Netherlands,NL3,West Netherlands
+NL4,South Netherlands,NL4,South Netherlands
+PL1,Centralny,PL1,Centralny
+PL2,Południowy,PL2,Południowy
+PL3,Wschodni,PL3,Wschodni
+PL4,Północno-zachodni,PL4,Północno-zachodni
+PL5,Południowo-zachodni,PL5,Południowo-zachodni
+PL6,Północny,PL6,Północny
+PT1,Continental Portugal,PT1,Continental Portugal
+PT2,Azores,PT2,Azores
+PT3,Madeira,PT3,Madeira
+RO1,Macroregion One,RO1,Macroregion One
+RO2,Macroregion Two,RO2,Macroregion Two
+RO3,Macroregion Three,RO3,Macroregion Three
+RO4,Macroregion Four,RO4,Macroregion Four
+SE1,East Sweden,SE1,East Sweden
+SE2,South Sweden,SE2,South Sweden
+SE3,North Sweden,SE3,North Sweden
+SI0,Slovenia,SI0,Slovenia
+SK0,Slovakia,SK0,Slovakia
+UKC,North East,UK01,Northern England
+UKD,North West,UK01,Northern England
+UKE,Yorkshire and the Humber,UK01,Northern England
+UKF,East Midlands,UK02,Southern England
+UKG,West Midlands,UK02,Southern England
+UKH,East of England,UK02,Southern England
+UKI,Greater London,UK02,Southern England
+UKJ,South East,UK02,Southern England
+UKK,South West,UK02,Southern England
+UKL,Wales,UKL,Wales
+UKM,Scotland,UKM,Scotland
+UKN,Northern Ireland,UKN,Northern Ireland
