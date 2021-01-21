@@ -1,4 +1,4 @@
-# Social norms, incentives, and prosocial behavior
+# Social norms explain Effects of Incentives on Prosocial Behavior
 
 Welcome to our research project page!
 
@@ -11,7 +11,7 @@ Welcome to our research project page!
 
 ## Reproducibility
 
-You can reproduce our analyses by running analysis/analysis_P1.R. We make use of the 2014 wave of the Eurobarometer 82.2 [1], please make sure to download the dataset from gesis.org and save it in /data before running our analyses.
+You can reproduce our analyses by running analysis/analysis_P1.R. We make use of the 2014 wave of the Eurobarometer 82.2 [1], please make sure to download the dataset from gesis.org and save it in /data before running our analyses. You can reproduce our model simulation by running modeling/modeling_P1.R.
 
 ## OSF project
 
@@ -19,6 +19,6 @@ https://osf.io/bf2kt/
 
 ## Contact
 
-If you have any feedback or questions, please email Caroline at c.graf@vu.nl or caroline.graf@posteo.de.
+If you have any feedback or questions, please email Caroline at c.graf@vu.nl.
 
 [1] European Commission. Eurobarometer 82.2 (2014). TNS opinion [producer]. Cologne, Germany: GESIS Data Archive; 2018.
