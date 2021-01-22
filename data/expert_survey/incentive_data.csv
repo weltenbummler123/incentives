@@ -1,7 +1,7 @@
 country,country_code,WB_incentive_financial,WB_incentive_financial_comment,WB_incentive_time,WB_incentive_time_comment,plasma_incentive_financial,plasma_incentive_financial_comment,plasma_incentive_time,plasma_incentive_time_comment
 Malta,MT,0,NA,0,NA,0,NA,0,NA
 Finland,FI,0,NA,0,NA,0,NA,0,NA
-Portugal,PT,1,exemption from paying fees for access to the national healthcare,1,duration of donation: ~ 1 hour,1,exemption from paying fees for access to the national healthcare,1,duration of donation: ~ 2 hours
+Portugal,PT,1,exemption from paying fees for access to the national healthcare (tax cut),1,duration of donation: ~ 1 hour,1,exemption from paying fees for access to the national healthcare (tax cut),1,duration of donation: ~ 2 hours
 Austria,AT,0,NA,0,NA,1,cash (25 Euro),0,NA
 Luxembourg,LU,0,NA,0.5,"depends on employers; quite common, especially for public sector; duration of donation: ~ 1 hour",0,NA,0.5,depends on employers; duration of donation: ~ 2 hours
 Lithuania,LT,0,NA,0,NA,NA,NA,NA,NA
@@ -25,5 +25,5 @@ Slovenia,SI,0,NA,1,1 day off,0,NA,1,1 day off
 United Kingdom,GB,0,NA,0,NA,NA,NA,NA,NA
 Hungary,HU,0,NA,0,NA,1,cash,1,cash
 Poland,PL,1,"tax relief; 29,40 Euro per Litre",1,not dependent on employer; 1 day,1,"tax relief; 29,40 Euro per Litre",1,not dependent on employer; 1 day
-Italy,IT,0,NA,1,not dependent on employer; 1 day,0,NA,1,not dependent on employer; 1 day
-Slovakia,SK,0,NA,0,NA,0,NA,0,NA
+Italy,IT,0,NA,1,not dependent on employer,0,NA,1,not dependent on employer
+Slovakia,SK,0,NA,1,not dependent on employer; up to 1 day,NA,NA,NA,NA
