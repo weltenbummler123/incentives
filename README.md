@@ -1,4 +1,4 @@
-# Social norms explain the Inconsistent Effects of Incentives on Prosocial Behavior
+# Social Norms Explain the Inconsistent Effects of Incentives on Prosocial Behavior
 
 ## Overview
 
