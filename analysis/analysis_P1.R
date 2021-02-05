@@ -259,6 +259,34 @@ wilcox.test(descriptives_country_level$soc_time_raw, descriptives_country_level$
 # Mann-Whitney U(n1 = n2 = 28) = 736, p < 0.001
 
 
+# C) Are incentives and social norms correlated
+
+# a) financial incentives and social norms for financial incentives
+
+corr_inc_soc_financial = filter(descriptives_country_level, country != "Germany")
+
+# For a dichotomous categorical variable and a continuous variable you can calculate a Pearson correlation if the categorical variable has a 0/1-coding for the categories. This correlation is then also known as a point-biserial correlation coefficient.
+cor.test(corr_inc_soc_financial$soc_financial_raw, corr_inc_soc_financial$WB_incentive_financial, method = "pearson")
+# 0.278, p = 0.1598 --> weak/moderate correlation
+
+# Alternative: Calculate ANOVA
+corr_inc_soc_financial = mutate(corr_inc_soc_financial, WB_incentive_financial = as.factor(WB_incentive_financial))
+summary(aov(corr_inc_soc_financial$soc_financial_raw ~ corr_inc_soc_financial$WB_incentive_financial))
+# Same as point-biserial correlation: p = 0.16 --> no significant correlation
+
+# b) time incentives and social norms for time incentives
+
+# Calculate ANOVA (time incentives variable has three levels, therefore not possible to use point-biserial correlation)
+corr_inc_soc_time = mutate(descriptives_country_level, WB_incentive_time = as.factor(WB_incentive_time))
+summary(aov(corr_inc_soc_time$soc_time_raw ~ corr_inc_soc_time$WB_incentive_time))
+# p = 0.041 --> significant correlation
+
+# Calculate correlation efficient by excluding middle level of time incentives (i.e., exclude countries where only some donors receive time incentives), --> then able to use point-biserial correlation and get a coefficient 
+corr_inc_soc_time = filter(descriptives_country_level, WB_incentive_time != 0.5)
+cor.test(corr_inc_soc_time$soc_time_raw, corr_inc_soc_time$WB_incentive_time, method = "pearson")
+# corr = 0.4258, p = 0.0542 --> moderate/strong correlation
+
+
 ################################################################
 
 ##### Mixed-effects models (full sample)
