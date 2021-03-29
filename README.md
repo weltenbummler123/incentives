@@ -2,16 +2,16 @@
 
 ## Overview
 
-**Authors:** Caroline Graf, Pamala Wiepking, Bianca Suanet, Eva-Maria Merz
+**Authors:** Caroline Graf, Eva-Maria Merz, Bianca Suanet, Pamala Wiepking
 
-**Abstract:** Incentives have surprisingly inconsistent effects when it comes to encouraging people to behave prosocially. That is, the effects of incentives vary across incentive types, private versus public settings and across countries. Previous theoretical accounts have explained these phenomena by postulating an additive effect of intrinsic motivation, extrinsic motivation, and reputational motivation. We build on these theories, but introduce a key theoretical modification: Reputational motivation depends on social norms. We empirically test our model on the real-world prosocial behavior of blood donation using a comparative dataset comprising representative samples from 28 European countries. We find that social norms can account for the varying effects of financial and time incentives on donation behavior across countries. That is, incentives were associated with higher levels of prosociality when social norms regarding the incentive were more positive. The results indicate that social norms regarding incentives play an important role in determining the effect of incentives on prosocial behavior.
+**Abstract:** Incentives have surprisingly inconsistent effects when it comes to encouraging people to behave prosocially. Classical economic theory struggles to account for these effects, as it predicts an increased supply of behavior that is incentivized. More recent theories therefore posit a reputational cost offsetting the benefits from receiving an incentive -- yet unexplained effects of incentives remain, for instance across incentive types and countries. We propose social norms can offer an explanation for these inconsistencies. This is because social norms determine the reputational costs or benefits resulting from a given behavior, and thus variation in the effect of incentives may reflect variation in norms. We implemented a formal model of prosocial behavior integrating social norms, which we empirically tested on the real-world prosocial behavior of blood donation. Blood donation is crucial for the functioning of medical systems, but also presents an ideal testing ground for our theory: Various incentive policies for blood donors exist across countries, enabling a comparative approach. Our preregistered analyses reveal that social norms can indeed account for the varying effects of financial and time incentives on individual-level blood donation behavior across 28 European countries. That is, incentives are associated with higher levels of prosociality when norms regarding the incentive are more positive. The results indicate social norms play an important role in explaining the relationship between incentives and prosocial behavior. More generally, our approach highlights the potential of integrating theory from across the economic and behavioral sciences to generate novel insights, with tangible consequences for policy making.
 
-**Keywords:** prosocial behavior, incentives, social norms, blood donation, reputation, intrinsic motivation, extrinsic motivation
+**Keywords:** prosocial behavior, incentives, social norms, blood donation
 
 
 ## Reproducibility
 
-You can reproduce our analyses by running analysis/analysis_P1.R. We make use of the 2014 wave of the Eurobarometer 82.2 [1], please make sure to download the dataset from gesis.org and save it in /data before running our analyses. You can reproduce our model simulation by running modeling/modeling_P1.R.
+You can reproduce our analyses by running analysis/analysis_P1.R. We make use of the 2014 wave of the Eurobarometer 82.2 [1], please make sure to download the dataset from gesis.org and save it in /data/Eurobarometer before running our analyses. You can reproduce our model simulation by running modeling/modeling_P1.R.
 
 ## OSF project
 
