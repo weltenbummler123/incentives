@@ -22,11 +22,12 @@
 
 ### 7) Map plots
 
-### 8) Additional exploratory analyses
+### 8) Prediction intervals for plots
+
+### 9) Additional exploratory analyses
 #       I Time incentives only for employed individuals
 #       II nuts-1 region-level analysis
 
-### 9) Prediction intervals for plots
 
 ####################################################################
 
