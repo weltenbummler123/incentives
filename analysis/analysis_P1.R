@@ -18,13 +18,11 @@
 
 ### 5) Time incentives - Robustness check: Excluding participants not willing to donate (i.e., who didn't answer IM and EM_get_return))
 
-### 6) Predicted probabilities and plotting (scatter and bar plots)
+### 6) Predicted probabilities and plotting
 
 ### 7) Map plots
 
-### 8) Prediction intervals for plots
-
-### 9) Additional exploratory analyses
+### 8) Additional exploratory analyses
 #       I Time incentives only for employed individuals
 #       II nuts-1 region-level analysis
 
@@ -368,23 +366,19 @@ cor.test(corr_inc_soc_time$soc_time_raw, corr_inc_soc_time$incentive_time, metho
 
 ##### Mixed-effects models (full sample)
 
-# In some models there was a problem with convergence: 
-# error arose only when including age (and random effect, as problem doesn't arise with standard glm)
-# https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html
-# "Rescale and center continuous parameters: [...] large differences 
-# in the scales of parameters often lead to problems (especially with calculating standard deviations of 
-# fixed effects)" --> Thus, we normalize age, number of children in household and the two social norm variables --> This fixed error
+# Due to problems with convergence in some models, we normalized the continuous variables (age, number of children, the two social norm variables)
+# (see https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html)
+# (For plotting predictive margins, we ran models with non-normalized social norm values (as there were no convergence issues and raw norm values provide easier readability))
 
 data$age = as.numeric(scale(data$age_raw))
 data$cost_children_in_household = as.numeric(scale(data$cost_children_in_household))
 data$soc_financial_normalized = as.numeric(scale(data$soc_financial_raw))
 data$soc_time_normalized = as.numeric(scale(data$soc_time_raw))
 
-# FOR FINANCIAL ANALYSES: Construct data frame without Germany, because it is the only country where incentives = 0.5 (i.e., incentives provided by some blood operators)
-# Excluding Germany, regrouping it to incentive = 0 or regrouping it to incentive = 1 yields the same qualitative and quantitative results
+# FOR FINANCIAL INCENTIVES ANALYSES: we construct data frame without Germany, because Germany is the only country where incentives are provided by some blood operators only
+# Excluding Germany, regrouping it to incentive = 0 or regrouping it to incentive = 1 yields the same quantitative results
 data_excl_Germany = filter(data, country != "Germany")
 
-####### I Financial incentives
 
 #### 0) Empty models
 
@@ -410,16 +404,15 @@ summary(m1)
 # AIC = 33097.4 (< 34848.6 --> demographics improve model fit)
 # significant effects: age (older more), gender (male more), living with partner (with partner more), education (higher education more)
 
-####### I Financial incentives
 
+####### I Financial incentives
 
 ### 2) Models with predictors of interest: Full sample
 m2 = glmer(donate_blood ~ age + gender + living_with_partner + education + EM_not_employed + EM_diff_paying_bills + cost_children_in_household + cost_type_of_community + IM + EM_get_return*incentive_financial + soc_financial_normalized*incentive_financial + (1|country), data = data_excl_Germany, family = "binomial", control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 summary(m2)
 # demographics effects are the same as in demographics-only model
+# significant effects: IM (higher IM more), soc_financial (more positive SOC more), cost_type_of_community (rural less), EM_not_employed (higher EM LESS), incentives (incentives = 1 LESS) (marginally significant: EM_get_return, also in interaction with incentives),
 
-# significant effects as predicted: IM (higher IM more), soc_financial (more positive SOC more), cost_type_of_community2 (rural less) (marginally significant: EM_get_return, also in interaction with incentives),
-# significant effects not predicted: EM_not_employed (higher EM LESS), incentives (incentives = 1 LESS) 
 
 ### 3) Robustness check: Excluding participants not willing to donate (i.e., who didn't answer IM and EM_get_return))
 
@@ -429,9 +422,7 @@ data_excl_not_willing_excl_Germany = filter(data_excl_not_willing, country != "G
 
 m3 = glmer(donate_blood ~ age + gender + living_with_partner + education + EM_not_employed + EM_diff_paying_bills + cost_children_in_household + cost_type_of_community + IM + EM_get_return*incentive_financial + soc_financial_normalized*incentive_financial + (1|country), data = data_excl_not_willing_excl_Germany, family = "binomial", control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 summary(m3)
-# living_with_partner becomes non-significant
-# EM_get_return1 becomes non-significant
-# EM_diff_paying_bills2 becomes marginally significant (in expected direction)
+# living_with_partner and EM_get_return1 become non-significant, EM_diff_paying_bills2 becomes marginally significant
 # o.w. all effects remain the same as in m2
 
 
@@ -442,14 +433,13 @@ summary(m3)
 m4 = glmer(donate_blood ~ age + gender + living_with_partner + education + EM_employed + cost_children_in_household + cost_type_of_community + IM + EM_get_return*incentive_time + soc_time_normalized*incentive_time + (1|country), data = data, family = "binomial", control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 summary(m4)
 # demographics effects same
-# significant effects as predicted: IM (higher IM more), EM_employed (higher EM more), incentive x SOC (higher if incentive and positive SOC) (marginally significant: EM_get_return1:incentive_time1; type_of_community (more rural less))
+# significant effects: IM (higher IM more), EM_employed (higher EM more), incentive x SOC (higher if incentive and positive SOC) (marginally significant: EM_get_return1:incentive_time1; type_of_community (more rural less))
 
 ### 5) Robustness check: Excluding participants not willing to donate (i.e., who didn't answer IM and EM_get_return))
 
 m5 = glmer(donate_blood ~ age + gender + living_with_partner + education + EM_employed + cost_children_in_household + cost_type_of_community + IM + EM_get_return*incentive_time + soc_time_normalized*incentive_time + (1|country), data = data_excl_not_willing, family = "binomial", control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 summary(m5)
 # living_with_partner becomes non-significant
-# EM_get_return1:incentive_time1 becomes non-significant
 # o.w. all effects remain the same as in m4
 
 
@@ -457,41 +447,14 @@ summary(m5)
 
 ### Predicted probabilities and plotting
 
-#### 1) SOC and incentives interaction predicted probabilities - FINANCIAL
+# We re-run models with RAW social norm values for better readability (equivalent results of m2 and m2_raw / m4 and m4_raw, and no convergence issues)
+# Prediction intervals are generated based on tutorial here: https://cran.r-project.org/web/packages/merTools/vignettes/Using_predictInterval.html
 
-# A) normalized SOC (using m2 model above)
-newdata <- expand.grid(age = mean(data_excl_Germany$age, na.rm=TRUE),
-                       gender = "1", 
-                       living_with_partner="1", 
-                       education = "2", 
-                       cost_type_of_community = "1",
-                       cost_children_in_household = mean(data_excl_Germany$cost_children_in_household, na.rm=TRUE),
-                       EM_not_employed = "0",
-                       EM_diff_paying_bills = "0",
-                       EM_get_return = "0",
-                       IM = "1",
-                       incentive_financial = c("0", "1"),
-                       soc_financial_normalized = sort(unique(data_excl_Germany$soc_financial_normalized)))
+library("merTools")
 
-pred_SOC_incentives_financial_normalized = newdata%>%
-  mutate(predictions = predict(m2, newdata, type="response", re.form=NA))
 
-# rename factor levels
-pred_SOC_incentives_financial_normalized = pred_SOC_incentives_financial_normalized%>%
-  mutate(incentive_financial = recode(incentive_financial, "0"="no incentive offered", "1"="incentive offered"),
-         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
+#### 1) SOC regarding FINANCIAL incentives
 
-# make scatter plot
-ggplot(pred_SOC_incentives_financial_normalized, aes(soc_financial_normalized, predictions, color=incentive_financial)) +
-  stat_smooth(method="glm", formula=y~x, alpha=0.2, size=2, aes(fill=incentive_financial)) +
-  geom_point(position=position_jitter(height=0.03, width=0)) + 
-  labs(y = "predicted probability of blood donation", x = "social norm for acceptability of financial incentive\n (normalized)", color = "financial incentive", title = "(A) Financial incentives") +
-  guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5))# +
-  #facet_grid(. ~ IM)+
-  #ggsave("plots/scatter/pred_SOC_incentives_financial_normalized.png", width = 8, height = 5)
-
-# B) raw SOC (raw values of social norms, for better interpretability/readability)
 m2_raw = glmer(donate_blood ~ age + gender + living_with_partner + education + EM_not_employed + EM_diff_paying_bills + cost_children_in_household + cost_type_of_community + IM + EM_get_return*incentive_financial + soc_financial_raw*incentive_financial + (1|country), data = data_excl_Germany, family = "binomial",control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 
 newdata <- expand.grid(age = mean(data_excl_Germany$age, na.rm=TRUE),
@@ -505,73 +468,33 @@ newdata <- expand.grid(age = mean(data_excl_Germany$age, na.rm=TRUE),
                        EM_get_return = "0",
                        IM = "1",
                        incentive_financial = c("0", "1"),
-                       soc_financial_raw = sort(unique(data_excl_Germany$soc_financial_raw)))
+                       soc_financial_raw = sort(unique(data_excl_Germany$soc_financial_raw)),
+                       country = "new country")
 
-pred_SOC_incentives_financial_raw = newdata%>%
-  mutate(predictions = predict(m2_raw, newdata, type="response", re.form=NA))
+PI <- predictInterval(merMod = m2_raw, newdata = newdata, level = 0.8, n.sims = 1000, stat = "mean", type="probability", include.resid.var = F)
+
+data_with_PI = bind_cols(newdata, PI)
 
 # rename factor levels
-pred_SOC_incentives_financial_raw = pred_SOC_incentives_financial_raw%>%
+data_with_PI = data_with_PI%>%
   mutate(incentive_financial = recode(incentive_financial, "0"="no blood operators", "1"="all blood operators"),
+         gender = recode(gender, "0"="male", "1"="female"),
          IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
 
-# make scatter plot
-a = ggplot(pred_SOC_incentives_financial_raw, aes(soc_financial_raw, predictions, color=incentive_financial)) +
-  stat_smooth(method="glm", formula=y~x, alpha=0.2, size=2, aes(fill=incentive_financial)) +
-  geom_point(position=position_jitter(height=0.03, width=0)) + 
+a_with_CI = ggplot(data_with_PI, aes(x = soc_financial_raw, y=fit, ymin=lwr, ymax=upr, color=incentive_financial)) +
+  #stat_smooth(method="glm", formula=y~x, alpha=0.2, size=1.5, aes(fill=incentive_financial, ymin=lwr, ymax=upr)) +
+  #geom_point() +
+  #geom_errorbar(width=.005)+
+  geom_smooth(aes(ymin = lwr, ymax = upr,fill = incentive_financial), stat = "identity") +
   labs(y = "predicted probability of blood donation", x = "social norm regarding financial incentives", color = "financial incentives offered") + #, title = "(A) Financial incentives") +
   guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) #+
-  #facet_grid(. ~ IM) +
-  #ggsave("plots/scatter/pred_SOC_incentives_financial_raw.png", width = 8, height = 5)
-
-# Make simplified bar plot with two levels of SOC
-pred_SOC_incentives_financial_raw_bar = pred_SOC_incentives_financial_raw%>%
-  mutate(soc_financial_raw = ifelse(soc_financial_raw < mean(soc_financial_raw), "low acceptability", "high acceptability"),
-         soc_financial_raw = factor(soc_financial_raw, levels = c("low acceptability", "high acceptability")),
-         incentive_financial = recode(incentive_financial, "no blood operators" = "not offered", "all blood operators" = "offered"))
-
-ggplot(data=pred_SOC_incentives_financial_raw_bar, aes(x=incentive_financial, y=predictions, fill=soc_financial_raw)) +
-  geom_bar(stat="identity", position=position_dodge()) +
-  labs(y = "predicted probability of blood donation", x = "financial reward", fill = "social norm for acceptability of financial reward") +
-  theme(legend.position="bottom")#+
-  #ggsave("plots/bar/pred_SOC_incentives_financial_raw_BAR.png", width = 6.5, height = 6)
+  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) +
+  expand_limits(y = 0)#+
+  #ggsave("plots/scatter/pred_SOC_incentives_financial_raw_with_PI_smooth.png", width = 8, height = 5)
 
 
-#### 2) SOC and incentives interaction predicted probabilities - TIME
+#### 2) SOC regarding TIME incentives 
 
-# A) normalized SOC (using m4 model above)
-newdata <- expand.grid(age = mean(data$age, na.rm=TRUE),
-                       gender = "1", 
-                       living_with_partner="1", 
-                       education = "2", 
-                       cost_type_of_community = "1",
-                       cost_children_in_household = mean(data$cost_children_in_household, na.rm=TRUE),
-                       EM_employed = "1",
-                       EM_get_return = "0",
-                       IM = "1",
-                       incentive_time = c("0", "0.5", "1"),
-                       soc_time_normalized = sort(unique(data$soc_time_normalized)))
-
-pred_SOC_incentives_time_normalized = newdata%>%
-  mutate(predictions = predict(m4, newdata, type="response", re.form=NA))
-
-# rename factor levels
-pred_SOC_incentives_time_normalized = pred_SOC_incentives_time_normalized%>%
-  mutate(incentive_time = recode(incentive_time, "0"="no incentive offered", "0.5"="incentive dependent\non employer", "1"="incentive offered"),
-         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
-
-# make scatter plot
-ggplot(pred_SOC_incentives_time_normalized, aes(soc_time_normalized, predictions, color=incentive_time)) +
-  stat_smooth(method="glm", formula=y~x, alpha=0.2, size=2, aes(fill=incentive_time)) +
-  geom_point(position=position_jitter(height=0.03, width=0)) + 
-  labs(y = "predicted probability of blood donation", x = "social norm for acceptability of time incentive\n (normalized)", color = "time incentive", title = "(B) Time incentives") +
-  guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) #+
-  #facet_grid(. ~ IM) +
-  #ggsave("plots/scatter/pred_SOC_incentives_time_normalized.png", width = 8, height = 5)
-
-# B) raw SOC
 m4_raw = glmer(donate_blood ~ age + gender + living_with_partner + education + EM_employed + cost_children_in_household + cost_type_of_community + IM + EM_get_return*incentive_time + soc_time_raw*incentive_time + (1|country), data = data, family = "binomial",control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)))
 
 newdata <- expand.grid(age = mean(data$age, na.rm=TRUE),
@@ -584,53 +507,40 @@ newdata <- expand.grid(age = mean(data$age, na.rm=TRUE),
                        EM_get_return = "0",
                        IM = "1",
                        incentive_time = c("0", "0.5", "1"),
-                       soc_time_raw = sort(unique(data$soc_time_raw)))
+                       soc_time_raw = sort(unique(data$soc_time_raw)),
+                       country = "new country")
 
-pred_SOC_incentives_time_raw = newdata%>%
-  mutate(predictions = predict(m4_raw, newdata, type="response", re.form=NA))
+PI <- predictInterval(merMod = m4_raw, newdata = newdata, level = 0.8, n.sims = 1000, stat = "mean", type="probability", include.resid.var = F)
+
+data_with_PI = bind_cols(newdata, PI)
 
 # rename factor levels
-pred_SOC_incentives_time_raw = pred_SOC_incentives_time_raw%>%
+data_with_PI = data_with_PI%>%
   mutate(incentive_time = recode(incentive_time, "0"="no blood operators", "0.5"="dependent on employer", "1"="all blood operators"),
+         gender = recode(gender, "0"="male", "1"="female"),
          IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
 
-# make scatter plot
-b = ggplot(pred_SOC_incentives_time_raw, aes(soc_time_raw, predictions, color=incentive_time)) +
-  stat_smooth(method="glm", formula=y~x, alpha=0.2, size=2, aes(fill=incentive_time)) +
-  geom_point(position=position_jitter(height=0.03, width=0)) + 
+b_with_CI = ggplot(data_with_PI, aes(x = soc_time_raw, y=fit, ymin=lwr, ymax=upr, color=incentive_time)) +
+  #stat_smooth(method="glm", formula=y~x, alpha=0.2, size=1.5, aes(fill=incentive_time)) +
+  #geom_point() +
+  #geom_errorbar(width=.005)+
+  geom_smooth(aes(ymin = lwr, ymax = upr, fill = incentive_time), stat = "identity") +
   labs(y = "predicted probability of blood donation", x = "social norm regarding time incentives", color = "time incentives offered") + #, title = "(B) Time incentives") +
   guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) #+
-  #facet_grid(. ~ IM) +
-  #ggsave("plots/scatter/pred_SOC_incentives_time_raw.png", width = 8, height = 5)
-
-# Make simplified bar plot with two levels of SOC
-pred_SOC_incentives_time_raw_bar = pred_SOC_incentives_time_raw%>%
-  mutate(soc_time_raw = ifelse(soc_time_raw < mean(soc_time_raw), "low acceptability", "high acceptability"),
-         soc_time_raw = factor(soc_time_raw, levels = c("low acceptability", "high acceptability")))
-
-ggplot(data=pred_SOC_incentives_time_raw_bar, aes(x=incentive_time, y=predictions, fill=soc_time_raw)) +
-  geom_bar(stat="identity", position=position_dodge()) +
-  labs(y = "predicted probability of blood donation", x = " ", fill = "social norm for acceptability of time reward") +
-  theme(legend.position="bottom")#+
-  #ggsave("plots/bar/pred_SOC_incentives_time_raw_BAR.png", width = 6.5, height = 6)
+  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5))+
+  expand_limits(y = 0)#+
+  #ggsave("plots/scatter/pred_SOC_incentives_time_raw_with_PI_smooth.png", width = 8, height = 5)
 
 
-####
-
-# make combined plot
-ggarrange(a, b, 
+# make combined plot for paper
+ggarrange(a_with_CI, b_with_CI, 
           labels = c("A", "B"),
-          ncol = 1, nrow = 2) # +
-  #ggsave("plots/scatter/combined_pred_SOC.png", width = 6.8, height = 8.7, units = "in") +
-  #ggsave(file="plots/scatter/combined_pred_SOC.pdf", width = 6.8, height = 8.7, units = "in")
+          ncol = 2, nrow = 1) +
+  #ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.png", width = 13, height = 5.7, units = "in") +
+  ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.pdf", width = 13, height = 5.7, units = "in")
 
-# make combined plot
-ggarrange(a, b, 
-          labels = c("A", "B"),
-          ncol = 2, nrow = 1) #+
-  #ggsave("plots/scatter/combined_pred_SOC_horizontal.png", width = 13, height = 5.7, units = "in") +
-  #ggsave(file="plots/scatter/combined_pred_SOC_horizontal.pdf", width = 13, height = 5.7, units = "in")
+
+
 
 ################################################################
 
@@ -680,7 +590,7 @@ ggplot(map_data, aes(fill=donate_blood_agg)) +
   viridis::scale_fill_viridis(name='Country-level mean\nblood donation', direction = -1, labels=scales::percent, option="plasma") +
   labs(x=NULL, y=NULL, title=NULL)+
   ggsave("plots/maps/blood_donation.png", width = 7, height = 5.7, units = "in")#+
-  #ggsave(file="plots/maps/blood_donation.pdf")
+#ggsave(file="plots/maps/blood_donation.pdf")
 
 ggplot(map_data, aes(fill=EM_get_return_agg)) +
   geom_sf(alpha=0.8,col='white') +
@@ -704,8 +614,8 @@ a = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukrain
   viridis::scale_fill_viridis(name='', direction = 1, na.value = "grey92", labels=scales::percent) +
   labs(x=NULL, y=NULL, title="Social norm\nregarding financial incentives")+
   theme(legend.position="bottom", legend.direction = "horizontal", legend.key.width = unit(1.3,"cm"), plot.title = element_text(hjust = 0.5))#+
-  #ggsave("plots/maps/soc_financial.png", width = 4.5, height = 5.5, units = "in")+
-  #ggsave(file="plots/maps/soc_financial.pdf", width = 4.5, height = 5.5, units = "in")
+#ggsave("plots/maps/soc_financial.png", width = 4.5, height = 5.5, units = "in")+
+#ggsave(file="plots/maps/soc_financial.pdf", width = 4.5, height = 5.5, units = "in")
 
 b = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukraine" & sovereignt != "Moldova"), aes(fill=soc_time_raw)) + 
   geom_sf(alpha=0.8,col='white') +
@@ -713,8 +623,8 @@ b = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukrain
   viridis::scale_fill_viridis(name='', direction = 1, na.value = "grey92", labels=scales::percent) +
   labs(x=NULL, y=NULL, title="Social norm\nregarding time incentives")+
   theme(legend.position="bottom", legend.direction = "horizontal", legend.key.width = unit(1.3,"cm"), plot.title = element_text(hjust = 0.5))#+
-  #ggsave("plots/maps/soc_time.png", width = 4.5, height = 5.5, units = "in")+
-  #ggsave(file="plots/maps/soc_time.pdf", width = 4.5, height = 5.5, units = "in")
+#ggsave("plots/maps/soc_time.png", width = 4.5, height = 5.5, units = "in")+
+#ggsave(file="plots/maps/soc_time.pdf", width = 4.5, height = 5.5, units = "in")
 
 c = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukraine" & sovereignt != "Moldova"), aes(fill=incentive_financial)) +
   geom_sf(alpha=0.8,col='white') +
@@ -722,9 +632,9 @@ c = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukrain
   viridis::scale_fill_viridis(name= "", discrete=TRUE, direction = 1, na.translate = F) +
   labs(x=NULL, y=NULL, title="Financial incentives offered")+
   theme(legend.position="bottom", legend.direction = "horizontal", legend.key.width = unit(0.7,"cm"), plot.title = element_text(hjust = 0.5))#+
-  #guides(fill = FALSE) +
-  #ggsave("plots/maps/incentive_financial.png", width = 4.5, height = 5.5, units = "in")+
-  #ggsave(file="plots/maps/incentive_financial.pdf", width = 4.5, height = 5.5, units = "in")
+#guides(fill = FALSE) +
+#ggsave("plots/maps/incentive_financial.png", width = 4.5, height = 5.5, units = "in")+
+#ggsave(file="plots/maps/incentive_financial.pdf", width = 4.5, height = 5.5, units = "in")
 
 d = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukraine" & sovereignt != "Moldova"), aes(fill=incentive_time)) +
   geom_sf(alpha=0.8,col='white') +
@@ -732,9 +642,9 @@ d = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukrain
   viridis::scale_fill_viridis(name= "", discrete=TRUE, direction = 1, na.translate = F) +
   labs(x=NULL, y=NULL, title="Time incentives offered")+
   theme(legend.position="bottom", legend.direction = "horizontal", legend.key.width = unit(0.7,"cm"), plot.title = element_text(hjust = 0.5))#+
-  #guides(fill = FALSE) +
-  #ggsave("plots/maps/incentive_time.png", width = 4.5, height = 5.5, units = "in")+
-  #ggsave(file="plots/maps/incentive_time.pdf", width = 4.5, height = 5.5, units = "in")
+#guides(fill = FALSE) +
+#ggsave("plots/maps/incentive_time.png", width = 4.5, height = 5.5, units = "in")+
+#ggsave(file="plots/maps/incentive_time.pdf", width = 4.5, height = 5.5, units = "in")
 
 # Make combined plot for paper
 ggarrange(a, b, c, d, 
@@ -742,96 +652,6 @@ ggarrange(a, b, c, d,
           ncol = 2, nrow = 2) +
   #ggsave("plots/maps/combined_maps.png", width = 6.8, height = 8, units = "in") +
   ggsave(file="plots/maps/combined_maps.pdf", width = 6.8, height = 8, units = "in")
-
-
-####################
-
-### Generate prediction intervals
-
-# Based on https://cran.r-project.org/web/packages/merTools/vignettes/Using_predictInterval.html
-
-library("merTools")
-
-# 1) m2_raw
-
-newdata <- expand.grid(age = mean(data_excl_Germany$age, na.rm=TRUE),
-                       gender = "1", 
-                       living_with_partner="1", 
-                       education = "2", 
-                       cost_type_of_community = "1",
-                       cost_children_in_household = mean(data_excl_Germany$cost_children_in_household, na.rm=TRUE),
-                       EM_not_employed = "0",
-                       EM_diff_paying_bills = "0",
-                       EM_get_return = "0",
-                       IM = "1",
-                       incentive_financial = c("0", "1"),
-                       soc_financial_raw = sort(unique(data_excl_Germany$soc_financial_raw)),
-                       country = "new country")
-
-PI <- predictInterval(merMod = m2_raw, newdata = newdata, level = 0.8, n.sims = 1000, stat = "mean", type="probability", include.resid.var = F)
-
-data_with_PI = bind_cols(newdata, PI)
-
-# rename factor levels
-data_with_PI = data_with_PI%>%
-  mutate(incentive_financial = recode(incentive_financial, "0"="no blood operators", "1"="all blood operators"),
-         gender = recode(gender, "0"="male", "1"="female"),
-         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
-
-a_with_CI = ggplot(data_with_PI, aes(x = soc_financial_raw, y=fit, ymin=lwr, ymax=upr, color=incentive_financial)) +
-  #stat_smooth(method="glm", formula=y~x, alpha=0.2, size=1.5, aes(fill=incentive_financial, ymin=lwr, ymax=upr)) +
-  #geom_point() +
-  #geom_errorbar(width=.005)+
-  geom_smooth(aes(ymin = lwr, ymax = upr,fill = incentive_financial), stat = "identity") +
-  labs(y = "predicted probability of blood donation", x = "social norm regarding financial incentives", color = "financial incentives offered") + #, title = "(A) Financial incentives") +
-  guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) +
-  expand_limits(y = 0)#+
-  #ggsave("plots/scatter/pred_SOC_incentives_financial_raw_with_PI_smooth.png", width = 8, height = 5)
-
-# 2) m4_raw
-
-newdata <- expand.grid(age = mean(data$age, na.rm=TRUE),
-                       gender = "1", 
-                       living_with_partner="1", 
-                       education = "2", 
-                       cost_type_of_community = "1",
-                       cost_children_in_household = mean(data$cost_children_in_household, na.rm=TRUE),
-                       EM_employed = "1",
-                       EM_get_return = "0",
-                       IM = "1",
-                       incentive_time = c("0", "0.5", "1"),
-                       soc_time_raw = sort(unique(data$soc_time_raw)),
-                       country = "new country")
-
-PI <- predictInterval(merMod = m4_raw, newdata = newdata, level = 0.8, n.sims = 1000, stat = "mean", type="probability", include.resid.var = F)
-
-data_with_PI = bind_cols(newdata, PI)
-
-# rename factor levels
-data_with_PI = data_with_PI%>%
-  mutate(incentive_time = recode(incentive_time, "0"="no blood operators", "0.5"="dependent on employer", "1"="all blood operators"),
-         gender = recode(gender, "0"="male", "1"="female"),
-         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
-
-b_with_CI = ggplot(data_with_PI, aes(x = soc_time_raw, y=fit, ymin=lwr, ymax=upr, color=incentive_time)) +
-  #stat_smooth(method="glm", formula=y~x, alpha=0.2, size=1.5, aes(fill=incentive_time)) +
-  #geom_point() +
-  #geom_errorbar(width=.005)+
-  geom_smooth(aes(ymin = lwr, ymax = upr, fill = incentive_time), stat = "identity") +
-  labs(y = "predicted probability of blood donation", x = "social norm regarding time incentives", color = "time incentives offered") + #, title = "(B) Time incentives") +
-  guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5))+
-  expand_limits(y = 0)#+
-  #ggsave("plots/scatter/pred_SOC_incentives_time_raw_with_PI_smooth.png", width = 8, height = 5)
-
-
-# make combined plot for paper
-ggarrange(a_with_CI, b_with_CI, 
-          labels = c("A", "B"),
-          ncol = 2, nrow = 1) +
-  #ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.png", width = 13, height = 5.7, units = "in") +
-  ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.pdf", width = 13, height = 5.7, units = "in")
 
 
 
@@ -858,9 +678,9 @@ summary(m_time_unemployed)
 
 #### II nuts-1 region-level analysis
 
-warning("Careful! In order to run these region-level analyses, you need to clear the workspace and re-run only lines 0 - 130")
+warning("Careful! In order to run these region-level analyses, you need to clear the workspace and re-run only lines 0 - 128")
 # Note: To run region-level analyses, please clear all objects from the workspace, 
-# run the code from line 0 to 130 and then continue running code below
+# run the code from line 0 to 128 and then continue running code below
 
 # Get nuts level 1 names
 nuts_level1_names = read.csv("../data/supp_data/nuts_level1_names.csv")
@@ -910,7 +730,7 @@ data$age = as.numeric(scale(data$age_raw))
 data$cost_children_in_household = as.numeric(scale(data$cost_children_in_household))
 data$soc_financial_normalized_regions = as.numeric(scale(data$soc_financial_raw_regions))
 data$soc_time_normalized_regions = as.numeric(scale(data$soc_time_raw_regions))
-data_excl_Germany = filter(data, country != "Germany") # for analyses regarding financial rewards, exclude Germany, because only country where "some blood operators" offer financial incentives
+data_excl_Germany = filter(data, country != "Germany") # for analyses regarding financial rewards, exclude Germany, because Germany is only country where "some blood operators" offer financial incentives
 
 # Run models
 
@@ -931,79 +751,7 @@ summary(m_region_level_norms_time)
 # if SOCxgender included, SOCxgender is significant
 
 
-## Predicted probabilities and plotting
-
-# 1) Financial incentives
-
-newdata <- expand.grid(age = mean(data_excl_Germany$age, na.rm=TRUE),
-                       gender = "1",  # Use 'c("0", "1")' if using 'facet_grid( ~ gender)' below
-                       living_with_partner="1", 
-                       education = "2", 
-                       cost_type_of_community = "1",
-                       cost_children_in_household = mean(data_excl_Germany$cost_children_in_household, na.rm=TRUE),
-                       EM_not_employed = "0",
-                       EM_diff_paying_bills = "0",
-                       EM_get_return = "0",
-                       IM = "1", 
-                       incentive_financial = c("0", "1"),
-                       soc_financial_normalized_regions = sort(unique(data_excl_Germany$soc_financial_normalized_regions)))
-
-pred_SOC_incentives_financial_normalized = newdata%>%
-  mutate(predictions = predict(m_region_level_norms_financial, newdata, type="response", re.form=NA)) # choose here as model either (a) m_region_level_norms_financial or (b) m_region_level_norms_financial_with_gender_interactions
-
-# rename factor levels
-pred_SOC_incentives_financial_normalized = pred_SOC_incentives_financial_normalized%>%
-  mutate(incentive_financial = recode(incentive_financial, "0"="no incentive offered", "1"="incentive offered"),
-         gender = recode(gender, "0"="male", "1"="female"),
-         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
-
-# make scatter plot
-ggplot(pred_SOC_incentives_financial_normalized, aes(soc_financial_normalized_regions, predictions, color=incentive_financial)) +
-  stat_smooth(method="glm", formula=y~x, alpha=0.2, size=2, aes(fill=incentive_financial)) +
-  geom_point(position=position_jitter(height=0.03, width=0)) + 
-  labs(y = "predicted probability of blood donation", x = "social norm for acceptability of financial incentive\n (normalized; region-level)", color = "financial incentive", title = "(A) Financial incentives") +
-  guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5))#+
-#facet_grid(. ~ gender)+
-#ggsave("plots/scatter/pred_region_level_norms_financial_w_out_gender_interaction.png", width = 8, height = 6.5)
-
-
-# 2) Time incentives
-
-newdata <- expand.grid(age = mean(data$age, na.rm=TRUE),
-                       gender = "1", # Use 'c("0", "1")' if using 'facet_grid( ~ gender)' below
-                       living_with_partner="1", 
-                       education = "2", 
-                       cost_type_of_community = "1",
-                       cost_children_in_household = mean(data$cost_children_in_household, na.rm=TRUE),
-                       EM_employed = "1",
-                       EM_get_return = "0",
-                       IM = "1", 
-                       incentive_time = c("0", "0.5", "1"),
-                       soc_time_normalized_regions = sort(unique(data$soc_time_normalized_regions)))
-
-pred_region_level_norms_time = newdata%>%
-  mutate(predictions = predict(m_region_level_norms_time, newdata, type="response", re.form=NA)) # choose here as model either (a) m_region_level_norms_time or (b) m_region_level_norms_time_with_gender_interactions
-
-# rename factor levels
-pred_region_level_norms_time = pred_region_level_norms_time%>%
-  mutate(incentive_time = recode(incentive_time, "0"="no incentive offered", "0.5"="incentive dependent\non employer", "1"="incentive offered"),
-         gender = recode(gender, "0"="male", "1"="female"),
-         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
-
-# make scatter plot
-ggplot(pred_region_level_norms_time, aes(soc_time_normalized_regions, predictions, color=incentive_time)) +
-  stat_smooth(method="glm", formula=y~x, alpha=0.2, size=2, aes(fill=incentive_time)) +
-  geom_point(position=position_jitter(height=0.03, width=0)) + 
-  labs(y = "predicted probability of blood donation", x = "social norm for acceptability of time incentive (normalized; region-level)", color = "time incentive", title = "(B) Time incentives") +
-  guides(fill = FALSE) +
-  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) #+
-#facet_grid( ~ gender)+
-#ggsave("plots/scatter/pred_region_level_norms_time_w_out_gender_interaction.png", width = 8, height = 6.5)
-
-
-
-### Generate prediction intervals
+#### Predicted probabilities and plotting
 
 # 1) m_region_level_norms_financial
 
