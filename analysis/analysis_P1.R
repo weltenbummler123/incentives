@@ -540,6 +540,92 @@ ggarrange(a_with_CI, b_with_CI,
   ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.pdf", width = 13, height = 5.7, units = "in")
 
 
+###### Make predictions split by gender
+
+#### 3) SOC regarding FINANCIAL incentives (using m2_raw)
+
+newdata <- expand.grid(age = mean(data_excl_Germany$age, na.rm=TRUE),
+                       gender = c("0", "1"), 
+                       living_with_partner="1", 
+                       education = "2", 
+                       cost_type_of_community = "1",
+                       cost_children_in_household = mean(data_excl_Germany$cost_children_in_household, na.rm=TRUE),
+                       EM_not_employed = "0",
+                       EM_diff_paying_bills = "0",
+                       EM_get_return = "0",
+                       IM = "1",
+                       incentive_financial = c("0", "1"),
+                       soc_financial_raw = sort(unique(data_excl_Germany$soc_financial_raw)),
+                       country = "new country")
+
+PI <- predictInterval(merMod = m2_raw, newdata = newdata, level = 0.8, n.sims = 1000, stat = "mean", type="probability", include.resid.var = F)
+
+data_with_PI = bind_cols(newdata, PI)
+
+# rename factor levels
+data_with_PI = data_with_PI%>%
+  mutate(incentive_financial = recode(incentive_financial, "0"="no blood operators", "1"="all blood operators"),
+         gender = recode(gender, "0"="male", "1"="female"),
+         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
+
+a_with_CI_gender = ggplot(data_with_PI, aes(x = soc_financial_raw, y=fit, ymin=lwr, ymax=upr, color=incentive_financial)) +
+  #stat_smooth(method="glm", formula=y~x, alpha=0.2, size=1.5, aes(fill=incentive_financial, ymin=lwr, ymax=upr)) +
+  #geom_point() +
+  #geom_errorbar(width=.005)+
+  facet_grid( ~ gender) + 
+  geom_smooth(aes(ymin = lwr, ymax = upr,fill = incentive_financial), stat = "identity") +
+  labs(y = "predicted probability of blood donation", x = "social norm regarding financial incentives", color = "financial incentives offered") + #, title = "(A) Financial incentives") +
+  guides(fill = FALSE) +
+  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) +
+  expand_limits(y = 0)#+
+#ggsave("plots/scatter/pred_SOC_incentives_financial_raw_with_PI_smooth.png", width = 8, height = 5)
+
+
+#### 4) SOC regarding TIME incentives  (using m4_raw)
+
+newdata <- expand.grid(age = mean(data$age, na.rm=TRUE),
+                       gender = c("0", "1"), 
+                       living_with_partner="1", 
+                       education = "2", 
+                       cost_type_of_community = "1",
+                       cost_children_in_household = mean(data$cost_children_in_household, na.rm=TRUE),
+                       EM_employed = "1",
+                       EM_get_return = "0",
+                       IM = "1",
+                       incentive_time = c("0", "0.5", "1"),
+                       soc_time_raw = sort(unique(data$soc_time_raw)),
+                       country = "new country")
+
+PI <- predictInterval(merMod = m4_raw, newdata = newdata, level = 0.8, n.sims = 1000, stat = "mean", type="probability", include.resid.var = F)
+
+data_with_PI = bind_cols(newdata, PI)
+
+# rename factor levels
+data_with_PI = data_with_PI%>%
+  mutate(incentive_time = recode(incentive_time, "0"="no blood operators", "0.5"="dependent on employer", "1"="all blood operators"),
+         gender = recode(gender, "0"="male", "1"="female"),
+         IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
+
+b_with_CI_gender = ggplot(data_with_PI, aes(x = soc_time_raw, y=fit, ymin=lwr, ymax=upr, color=incentive_time)) +
+  #stat_smooth(method="glm", formula=y~x, alpha=0.2, size=1.5, aes(fill=incentive_time)) +
+  #geom_point() +
+  #geom_errorbar(width=.005)+
+  facet_grid( ~ gender) + 
+  geom_smooth(aes(ymin = lwr, ymax = upr, fill = incentive_time), stat = "identity") +
+  labs(y = "predicted probability of blood donation", x = "social norm regarding time incentives", color = "time incentives offered") + #, title = "(B) Time incentives") +
+  guides(fill = FALSE) +
+  theme(legend.position="bottom", plot.title = element_text(hjust = 0.5))+
+  expand_limits(y = 0)#+
+#ggsave("plots/scatter/pred_SOC_incentives_time_raw_with_PI_smooth.png", width = 8, height = 5)
+
+
+# make combined plot for paper
+ggarrange(a_with_CI_gender, b_with_CI_gender, 
+          labels = c("A", "B"),
+          ncol = 1, nrow = 2) +
+  ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth_by_gender.png", width = 8.3, height = 11.5, units = "in") #+
+  #ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth_by_gender.pdf", width = 8.3, height = 11.5, units = "in")
+
 
 
 ################################################################
