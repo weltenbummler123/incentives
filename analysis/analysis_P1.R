@@ -477,7 +477,7 @@ data_with_PI = bind_cols(newdata, PI)
 
 # rename factor levels
 data_with_PI = data_with_PI%>%
-  mutate(incentive_financial = recode(incentive_financial, "0"="no blood operators", "1"="all blood operators"),
+  mutate(incentive_financial = recode(incentive_financial, "0"="not offered", "1"="offered"),
          gender = recode(gender, "0"="male", "1"="female"),
          IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
 
@@ -486,7 +486,7 @@ a_with_CI = ggplot(data_with_PI, aes(x = soc_financial_raw, y=fit, ymin=lwr, yma
   #geom_point() +
   #geom_errorbar(width=.005)+
   geom_smooth(aes(ymin = lwr, ymax = upr,fill = incentive_financial), stat = "identity") +
-  labs(y = "predicted probability of blood donation", x = "social norm regarding financial incentives", color = "financial incentives offered") + #, title = "(A) Financial incentives") +
+  labs(y = "predicted probability of blood donation", x = "social norm regarding financial incentives", color = "financial incentives") + #, title = "(A) Financial incentives") +
   guides(fill = FALSE) +
   theme(legend.position="bottom", plot.title = element_text(hjust = 0.5)) +
   expand_limits(y = 0)#+
@@ -516,7 +516,7 @@ data_with_PI = bind_cols(newdata, PI)
 
 # rename factor levels
 data_with_PI = data_with_PI%>%
-  mutate(incentive_time = recode(incentive_time, "0"="no blood operators", "0.5"="dependent on employer", "1"="all blood operators"),
+  mutate(incentive_time = recode(incentive_time, "0"="not offered", "0.5"="dependent on employer", "1"="offered"),
          gender = recode(gender, "0"="male", "1"="female"),
          IM = recode(IM, "0"="not intrinsically motivated", "1"="intrinsically motivated"))
 
@@ -525,7 +525,7 @@ b_with_CI = ggplot(data_with_PI, aes(x = soc_time_raw, y=fit, ymin=lwr, ymax=upr
   #geom_point() +
   #geom_errorbar(width=.005)+
   geom_smooth(aes(ymin = lwr, ymax = upr, fill = incentive_time), stat = "identity") +
-  labs(y = "predicted probability of blood donation", x = "social norm regarding time incentives", color = "time incentives offered") + #, title = "(B) Time incentives") +
+  labs(y = "predicted probability of blood donation", x = "social norm regarding time incentives", color = "time incentives") + #, title = "(B) Time incentives") +
   guides(fill = FALSE) +
   theme(legend.position="bottom", plot.title = element_text(hjust = 0.5))+
   expand_limits(y = 0)#+
@@ -537,7 +537,7 @@ ggarrange(a_with_CI, b_with_CI,
           labels = c("A", "B"),
           ncol = 2, nrow = 1) +
   #ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.png", width = 13, height = 5.7, units = "in") +
-  ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.pdf", width = 13, height = 5.7, units = "in")
+  ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.pdf", width = 10, height = 4.7, units = "in")
 
 
 ###### Make predictions split by gender
