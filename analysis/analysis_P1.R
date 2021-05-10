@@ -284,7 +284,7 @@ descr_time = ggplot(descriptives_country_level_time, aes(soc_time_raw, donate_bl
 
 # make combined descriptves plot for paper SI
 ggarrange(descr_fin, descr_time, 
-          labels = c("A", "B"),
+          labels = c("a", "b"),
           ncol = 2, nrow = 1) +
   ggsave("plots/scatter/combined_descr.png", width = 13, height = 6, units = "in")
 
@@ -534,9 +534,9 @@ b_with_CI = ggplot(data_with_PI, aes(x = soc_time_raw, y=fit, ymin=lwr, ymax=upr
 
 # make combined plot for paper
 ggarrange(a_with_CI, b_with_CI, 
-          labels = c("A", "B"),
+          labels = c("a", "b"),
           ncol = 2, nrow = 1) +
-  #ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.png", width = 13, height = 5.7, units = "in") +
+  ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.png", width = 10, height = 4.7, units = "in") +
   ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth.pdf", width = 10, height = 4.7, units = "in")
 
 
@@ -621,7 +621,7 @@ b_with_CI_gender = ggplot(data_with_PI, aes(x = soc_time_raw, y=fit, ymin=lwr, y
 
 # make combined plot for paper
 ggarrange(a_with_CI_gender, b_with_CI_gender, 
-          labels = c("A", "B"),
+          labels = c("a", "b"),
           ncol = 1, nrow = 2) +
   ggsave("plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth_by_gender.png", width = 8.3, height = 11.5, units = "in") #+
   #ggsave(file="plots/scatter/combined_pred_SOC_horizontal_with_PI_smooth_by_gender.pdf", width = 8.3, height = 11.5, units = "in")
@@ -734,9 +734,9 @@ d = ggplot(data=subset(map_data, sovereignt != "Belarus" & sovereignt != "Ukrain
 
 # Make combined plot for paper
 ggarrange(a, b, c, d, 
-          labels = c("A", "B", "C", "D"),
+          labels = c("a", "b", "c", "d"),
           ncol = 2, nrow = 2) +
-  #ggsave("plots/maps/combined_maps.png", width = 6.8, height = 8, units = "in") +
+  ggsave("plots/maps/combined_maps.png", width = 6.8, height = 8, units = "in") +
   ggsave(file="plots/maps/combined_maps.pdf", width = 6.8, height = 8, units = "in")
 
 
@@ -918,7 +918,7 @@ d_with_CI = ggplot(data_with_PI, aes(x = soc_time_normalized_regions, y=fit, ymi
 
 # make combined plot for paper
 ggarrange(c_with_CI, d_with_CI, 
-          labels = c("A", "B"),
+          labels = c("a", "b"),
           ncol = 1, nrow = 2) +
   ggsave("plots/scatter/combined_pred_REGION_SOC_vertical_with_PI_smooth.png", width = 8, height = 12, units = "in") #+
   #ggsave(file="plots/scatter/combined_pred_REGION_SOC_vertical_with_PI_smooth.pdf", width = 8, height = 12, units = "in")
