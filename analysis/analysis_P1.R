@@ -54,7 +54,7 @@ library("corrplot")
 
 ##### Set WD
 
-setwd("/Users/caroline/Desktop/PhD/P1_incentives/analysis")
+setwd("INSERT PATH TO YOUR WORKING DIRECTORY HERE")
 
 ##### Set seed for reproducibility
 set.seed(101)

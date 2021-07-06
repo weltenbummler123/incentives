@@ -1,11 +1,11 @@
-######## Modeling script - P1 Social Norms, Incentives, and Prosocial Behavior ######## 
+######## Modeling script - P1 Social Norms, Incentives, and Prosociality ######## 
 
 ##### Load packages
 library("tidyverse")
 
 ##### Set WD
 
-setwd("/Users/caroline/Desktop/PhD/P1_incentives/modeling")
+setwd("INSERT PATH TO YOUR WORKING DIRECTORY HERE")
 
 ##### Set seed for reproducibility
 set.seed(101)
@@ -18,9 +18,9 @@ set.seed(101)
 
 IM = seq(0, 1, 0.01)
 EM = seq(0, 1, 0.01)
-#IM = abs(rnorm(100, mean = 0, sd = 0.5)) # uncomment this and the following line to create predictions based on normally (but strictly positive) distributed values of IM and EM
+#IM = abs(rnorm(100, mean = 0, sd = 0.5)) # uncomment this and the following line to create predictions based on normally (but strictly positive) distributed value of IM and EM
 #EM = abs(rnorm(100, mean = 0, sd = 0.5))
-cost = c(0.2, 0.4, 0.6, 0.8)
+cost = c(0.2, 0.4, 0.6, 0.8) #abs(rnorm(4, mean = 0, sd = 0.5))
 R = c(0,1)
 
 d = expand.grid(IM, EM, cost, R)
@@ -108,9 +108,9 @@ ggplot(d_BenTir, aes(IM, EM, color=B)) +
   geom_point() + 
   labs(y = "Extrinsic motivation", x = "Intrinsic motivation", color = "Prosocial behavior") +
   facet_grid(cost ~ R)+
-  scale_color_manual(values=c("grey", "#B80000")) # +
+  scale_color_manual(values=c("grey", "#B80000"))+
   #ggsave("plots/pred_total_benefit_BenTir.eps", device="eps", width = 12, height = 8)+
-  #ggsave("plots/pred_total_benefit_BenTir.png", width = 7, height = 8)
+  ggsave("plots/pred_total_benefit_BenTir.png", width = 7, height = 8)
   
 
 ################################################################
@@ -174,8 +174,9 @@ ggplot(d, aes(IM, EM, color=B)) +
   geom_vline(data=data_vline, aes(xintercept=c_levels-0.01), color="yellow", size = 0.8) +
   geom_abline(data=data_abline, aes(intercept=intercept_abline-0.01, slope=-1), color="green", size = 1) + 
   scale_color_manual(values=c("grey", "#B80000")) +
-  ggsave("plots/total_benefit_SOC.png", width = 12, height = 8) +
-  ggsave("plots/total_benefit_SOC.eps", device="eps", width = 12, height = 8)
+  ggsave("plots/total_benefit_SOC.eps", device="eps", width = 9.5, height = 6) +
+  ggsave("plots/total_benefit_SOC.png", width = 9.5, height = 6)
+  
 
 
 ################################################################
@@ -278,17 +279,17 @@ expected_motivation_IM_EM_extended = bind_rows(expected_motivation_IM_extended_m
          R = ifelse(R == "incentive = 0", "incentive absent", "incentive present"))
 
 ggplot(expected_motivation_IM_EM_extended, aes(cost_extended, diff_E_motivation_B1_B0, color=scenario)) +
-  geom_jitter() #+ 
+  geom_jitter() + 
   labs(y = "Difference in expected motivation when a prosocial behavior is performed", x = "cost of performing prosocial behavior", color = "Type of scenario")+
   #ggsave("plots/expected_IM_EM_given_R.eps", device="eps", width = 8, height = 6)+
-  #ggsave("plots/expected_IM_EM_given_R.png", width = 8, height = 6)
+  ggsave("plots/expected_IM_EM_given_R.png", width = 8, height = 6)
 
 ggplot(expected_motivation_IM_EM_extended, aes(cost_extended, diff_E_motivation_B1_B0, color=R)) +
   geom_jitter() + 
   facet_grid(. ~ motivation)+
-  labs(y = "Difference in expected motivation when a prosocial behavior is performed", x = "cost of performing prosocial behavior", color = "Incentive") #+
+  labs(y = "Difference in expected motivation when a prosocial behavior is performed", x = "cost of performing prosocial behavior", color = "Incentive")+
   #ggsave("plots/expected_IM_EM_given_R_facet.eps", device="eps", width = 8, height = 6)+
-  #ggsave("plots/expected_IM_EM_given_R_facet.png", width = 8, height = 6)
+  ggsave("plots/expected_IM_EM_given_R_facet.png", width = 8, height = 6)
 
 
 ## C) Explore difference in expected IM - expected EM given R
@@ -307,6 +308,6 @@ expected_motivation_IM_EM_extended2 = left_join(expected_motivation_IM_extended_
 
 ggplot(expected_motivation_IM_EM_extended2, aes(cost_extended, diff_E_IM_B1_B0_minus_diff_E_EM_B1_B0, color=R)) +
   geom_point() + 
-  labs(y = "Difference in expected intrinsic motivation and expected extrinsic motivation \n when a prosocial behavior is performed", x = "cost of performing prosocial behavior", color = "Incentive") #+
+  labs(y = "Difference in expected intrinsic motivation and expected extrinsic motivation \n when a prosocial behavior is performed", x = "cost of performing prosocial behavior", color = "Incentive")+
   #ggsave("plots/diff_expected_IM_EM_given_R.eps", device="eps", width = 8, height = 6) +
-  #ggsave("plots/diff_expected_IM_EM_given_R.png", width = 8, height = 6)
+  ggsave("plots/diff_expected_IM_EM_given_R.png", width = 8, height = 6)
